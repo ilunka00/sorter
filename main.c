@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_NUMBERS 1000
-
 void insertionSort(int arr[], int n) {
     int i, key, j;
     for (i = 1; i < n; i++) {
@@ -29,11 +27,31 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int numbers[MAX_NUMBERS];
+    int *numbers = NULL;
     int numCount = 0;
+    int capacity = 10;
 
-    while (fscanf(fNumbers, "%d", &numbers[numCount]) != EOF && numCount < MAX_NUMBERS) {
-        numCount++;
+    numbers = malloc(capacity * sizeof(int));
+    if (numbers == NULL) {
+        printf("Memory allocation failed\n");
+        fclose(fNumbers);
+        return 1;
+    }
+
+    int number;
+    while (fscanf(fNumbers, "%d", &number) == 1) {
+        if (numCount == capacity) {
+            capacity *= 2;
+            int *temp = realloc(numbers, capacity * sizeof(int));
+            if (temp == NULL) {
+                printf("Memory allocation failed\n");
+                fclose(fNumbers);
+                free(numbers);
+                return 1;
+            }
+            numbers = temp;
+        }
+        numbers[numCount++] = number;
     }
 
     fclose(fNumbers);
@@ -43,6 +61,8 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < numCount; i++) {
         printf("%d\n", numbers[i]);
     }
+
+    free(numbers);
 
     return 0;
 }
