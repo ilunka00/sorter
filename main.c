@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define LINE_MAX 16384
+
 void insertionSort(int arr[], int n) {
     int i, key, j;
     for (i = 1; i < n; i++) {
@@ -13,6 +15,18 @@ void insertionSort(int arr[], int n) {
         }
         arr[j + 1] = key;
     }
+}
+
+int isValidInteger(const char *str) {
+    if (str == NULL || *str == '\0') return 0;
+
+    while (*str) {
+        if (*str < '0' || *str > '9') {
+            return 0;
+        }
+        str++;
+    }
+    return 1;
 }
 
 int main(int argc, char *argv[]) {
@@ -38,8 +52,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int number;
-    while (fscanf(fNumbers, "%d", &number) == 1) {
+    char line[LINE_MAX];
+
+    while (fgets(line, sizeof(line), fNumbers) != NULL) {
         if (numCount == capacity) {
             capacity *= 2;
             int *temp = realloc(numbers, capacity * sizeof(int));
@@ -51,7 +66,10 @@ int main(int argc, char *argv[]) {
             }
             numbers = temp;
         }
-        numbers[numCount++] = number;
+
+        int number;
+        if (sscanf(line, "%d", &number) == 1)
+            numbers[numCount++] = number;
     }
 
     fclose(fNumbers);

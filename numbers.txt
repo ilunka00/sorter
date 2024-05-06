@@ -7,11 +7,14 @@
 567
 123
 -5432
+This line should not appear on the output
 987654
 213
 765
 789
 101
+a
+zxc
 1
 1
 -4
@@ -19,6 +22,8 @@
 -3
 -1
 0
+asd
+qwe
 19
 22
 21
